@@ -1,0 +1,23 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>SharePoint Username</title></head><body><div id="username">Loading username...</div><script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchUserData();
+        });
+
+        function fetchUserData() {
+            fetch(`${window.location.origin}/_api/web/currentuser`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json;odata=verbose'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const username = data.d.Title;
+                document.getElementById('username').innerText = `Hello, ${username}!`;
+            })
+            .catch(error => {
+                console.error('Error fetching user data:', error);
+                document.getElementById('username').innerText = 'Error loading username';
+            });
+        }
+    </script></body></html>
